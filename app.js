@@ -6,8 +6,11 @@ var DD={deals:[{id:"d1",n:"پیتزا پپرونی",d:30,op:180000,np:126000,img
 (function(){var f=DD.cats.burger.scs.fried;delete DD.cats.burger.scs.fried;DD.cats.fried={n:"سوخاری",e:"🍗",c:"#e67e22",scs:{all:{n:"همه",its:f.its}}};})();
 var SUPABASE_URL="https://bezjytpdcodrtkteywyk.supabase.co";
 var SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJlemp5dHBkY29kcnRrdGV5d3lrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzNzI3NDUsImV4cCI6MjA5OTk0ODc0NX0.gWRwIkorB6iwQkZdYadPIU80J27NEO8V9alenYcgejo";
+function playNotifSound(){try{var a=new AudioContext();var o=a.createOscillator();var g=a.createGain();o.connect(g);g.connect(a.destination);o.type="sine";g.gain.value=0.3;g.gain.exponentialRampToValueAtTime(0.01,a.currentTime+0.3);o.frequency.setValueAtTime(880,a.currentTime);o.frequency.setValueAtTime(1100,a.currentTime+0.1);o.frequency.setValueAtTime(660,a.currentTime+0.2);o.start();o.stop(a.currentTime+0.3)}catch(e){}}
+function showOrderNotif(o){if(Notification.permission!=="granted")return;var items=o.items.map(function(x){return x.name}).join("، ");var n=new Notification("🛵 سفارش جدید #"+rn(o),{body:"👤 "+o.cust.name+" | 💰 "+fp(o.total)+" | "+items,icon:"data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect fill="%23c0392b" width="100" height="100" rx="20"/><text x="50" y="68" font-size="50" text-anchor="middle">🍕</text></svg>'),tag:o.id,requireInteraction:true});n.onclick=function(){window.focus();nv("admin");admTab("orders")};playNotifSound();setTimeout(function(){n.close()},8000)}
+
 function sbReq(m,u,b){var x=new XMLHttpRequest();x.open(m,u,true);x.setRequestHeader("apikey",SUPABASE_KEY);x.setRequestHeader("Authorization","Bearer "+SUPABASE_KEY);x.setRequestHeader("Content-Type","application/json");x.setRequestHeader("Prefer","return=minimal");x.send(b?JSON.stringify(b):null)}
-function sbSync(){var x=new XMLHttpRequest();x.open("GET",SUPABASE_URL+"/rest/v1/orders?order=date.desc&limit=200",true);x.setRequestHeader("apikey",SUPABASE_KEY);x.setRequestHeader("Authorization","Bearer "+SUPABASE_KEY);x.onload=function(){if(x.status!==200)return;try{var r=JSON.parse(x.responseText);if(!Array.isArray(r))return;var l=gO(),s={},c=false;for(var i=0;i<l.length;i++)s[l[i].id]=true;for(var i=0;i<r.length;i++){if(!s[r[i].id]){l.push(r[i]);c=true}}if(c){l.sort(function(a,b){return(a.date||"")>(b.date||"")?-1:1});localStorage.setItem(OK,JSON.stringify(l))}}catch(e){}};x.send()}
+function sbSync(){var x=new XMLHttpRequest();x.open("GET",SUPABASE_URL+"/rest/v1/orders?order=date.desc&limit=200",true);x.setRequestHeader("apikey",SUPABASE_KEY);x.setRequestHeader("Authorization","Bearer "+SUPABASE_KEY);x.onload=function(){if(x.status!==200)return;try{var r=JSON.parse(x.responseText);if(!Array.isArray(r))return;var l=gO(),s={},c=false;for(var i=0;i<l.length;i++)s[l[i].id]=true;for(var i=0;i<r.length;i++){if(!s[r[i].id]){l.push(r[i]);c=true;showOrderNotif(r[i])}}if(c){l.sort(function(a,b){return(a.date||"")>(b.date||"")?-1:1});localStorage.setItem(OK,JSON.stringify(l))}}catch(e){}};x.send()}
 var _rtSocket=null,_rtConnected=false;
 function rtConnect(){
   if(_rtConnected)return;
@@ -30,7 +33,7 @@ function rtConnect(){
           var o=msg.payload.data.record;var local=gO();var found=false;
           for(var i=0;i<local.length;i++){if(local[i].id===o.id){found=true;break}}
           if(found){for(var i=0;i<local.length;i++){if(local[i].id===o.id){for(var k in o)local[i][k]=o[k];break}}}else{local.push(o);local.sort(function(a,b){return(a.date||"")>(b.date||"")?-1:1});localStorage.setItem(OK,JSON.stringify(local))}
-          if(typeof admCurTab!=="undefined"&&(admCurTab==="dashboard"||admCurTab==="orders")){try{admTab(admCurTab)}catch(e2){}}
+          if(typeof admCurTab!=="undefined"&&(admCurTab==="dashboard"||admCurTab==="orders")){try{admTab(admCurTab)}catch(e2){}}showOrderNotif(rec);
         }
       }catch(e2){}
     };
@@ -376,7 +379,7 @@ function aic(){if(!ei)return;var it=JSON.parse(JSON.stringify(ei));var dl=gd(ei.
 
 // ═══ ADMIN PANEL ═══
 var admLogged=false,admCurTab="dashboard";
-function admLogin(){var p=document.getElementById("admPass");if(p&&p.value==="heeja2024"){admLogged=true;var al=document.getElementById("admLogin");if(al)al.style.display="none";var ap=document.getElementById("admPanel");if(ap)ap.style.display="block";admTab("dashboard");}else{var ae=document.getElementById("admErr");if(ae)ae.style.display="block"}}
+function admLogin(){var p=document.getElementById("admPass");if(p&&p.value==="heeja2024"){admLogged=true;if(Notification&&Notification.permission==="default"){Notification.requestPermission()};var al=document.getElementById("admLogin");if(al)al.style.display="none";var ap=document.getElementById("admPanel");if(ap)ap.style.display="block";admTab("dashboard");}else{var ae=document.getElementById("admErr");if(ae)ae.style.display="block"}}
 function admLogout(){admLogged=false;var al=document.getElementById("admLogin");if(al)al.style.display="block";var ap=document.getElementById("admPanel");if(ap)ap.style.display="none"}
 function admTab(t,btn){admCurTab=t;sbSync();var tabs=document.querySelectorAll(".admin-tab");for(var i=0;i<tabs.length;i++)tabs[i].classList.remove("active");if(btn)btn.classList.add("active");var c=document.getElementById("admContent");if(!c)return;
   if(t==="dashboard"){
