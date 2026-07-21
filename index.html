@@ -317,9 +317,9 @@ img{max-width:100%;display:block}input,select,textarea{font-family:inherit}ul{li
 .fmenu{position:fixed;bottom:28px;right:28px;z-index:900;width:62px;height:62px;border-radius:50%;background:linear-gradient(135deg,var(--gd),var(--g));color:var(--bg);font-size:1.6rem;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(201,169,110,0.5);transition:var(--tr);cursor:pointer;animation:fmenuPulse 2s infinite}
 .fmenu:hover{transform:scale(1.12);box-shadow:0 14px 45px rgba(201,169,110,0.75)}
 @keyframes fmenuPulse{0%,100%{box-shadow:0 8px 30px rgba(201,169,110,0.4)}50%{box-shadow:0 8px 55px rgba(201,169,110,0.7)}}
-.contact-float{position:fixed;bottom:100px;left:28px;z-index:900;width:55px;height:55px;border-radius:50%;background:linear-gradient(135deg,#25D366,#128C7E);color:white;font-size:1.4rem;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(37,211,102,0.4);transition:var(--tr);cursor:pointer}
-.contact-float:hover{transform:scale(1.12)}
-.cpanel{position:fixed;bottom:170px;left:28px;background:var(--card);border:1px solid var(--bgd);border-radius:16px;padding:1rem;z-index:899;display:none;min-width:260px;box-shadow:0 10px 40px rgba(0,0,0,0.5)}
+.contact-float{position:fixed;bottom:28px;left:28px;z-index:900;width:62px;height:62px;border-radius:50%;background:linear-gradient(135deg,#c0392b,#e74c3c);color:white;font-size:1.6rem;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(192,57,43,0.5);transition:var(--tr);cursor:pointer;animation:contactPulse 2.5s infinite}
+.contact-float:hover{transform:scale(1.12);box-shadow:0 14px 45px rgba(231,76,60,0.75)}@keyframes contactPulse{0%,100%{box-shadow:0 8px 30px rgba(192,57,43,0.4)}50%{box-shadow:0 8px 55px rgba(231,76,60,0.7)}}
+.cpanel{position:fixed;bottom:100px;left:28px;background:var(--card);border:1px solid var(--bgd);border-radius:16px;padding:1rem;z-index:899;display:none;min-width:260px;box-shadow:0 10px 40px rgba(0,0,0,0.5)}
 .cpanel.open{display:block;animation:fadeIn .3s ease}
 .cpanel-hdr{color:var(--gl);font-weight:800;margin-bottom:.8rem;font-size:.9rem;text-align:center}
 .ci-row{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;transition:var(--tr);margin-bottom:4px;cursor:pointer}
@@ -328,7 +328,7 @@ img{max-width:100%;display:block}input,select,textarea{font-family:inherit}ul{li
 .ci-label{font-weight:700;font-size:.82rem;color:var(--t)}.ci-value{font-size:.75rem;color:var(--t2)}
 
 /* ═══════ BACK TO TOP ═══════ */
-.btt{position:fixed;bottom:28px;right:28px;z-index:900;width:48px;height:48px;border-radius:50%;background:var(--card);border:1px solid var(--bgd);color:var(--g);font-size:1.3rem;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:var(--tr);opacity:0;visibility:hidden;transform:translateY(20px)}
+.btt{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);z-index:900;width:48px;height:48px;border-radius:50%;background:var(--card);border:1px solid var(--bgd);color:var(--g);font-size:1.3rem;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:var(--tr);opacity:0;visibility:hidden;transform:translateY(20px)}
 .btt.visible{opacity:1;visibility:visible;transform:translateY(0)}
 .btt:hover{background:var(--g);color:var(--bg);box-shadow:0 6px 25px rgba(201,169,110,0.3)}
 
@@ -486,7 +486,7 @@ img{max-width:100%;display:block}input,select,textarea{font-family:inherit}ul{li
 
 
 <button class="fmenu" onclick="nv('menu')" title="منو">🍕</button>
-<button class="contact-float" onclick="document.getElementById('cPanel').classList.toggle('open')">💬</button>
+<button class="contact-float" onclick="document.getElementById('cPanel').classList.toggle('open')">📞</button>
 <div class="cpanel" id="cPanel">
   <div class="cpanel-hdr">📞 ارتباط با هیژا</div>
   <a href="https://instagram.com/heeja_fastfood" target="_blank" rel="noopener" class="ci-row"><div class="ci-icon" style="background:linear-gradient(135deg,#833AB4,#E1306C,#F77737)">📷</div><div><div class="ci-label">اینستاگرام</div><div class="ci-value">@heeja_fastfood</div></div></a>
